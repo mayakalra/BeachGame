@@ -86,15 +86,17 @@ public class BasicGameApp implements Runnable {
     public void moveThings() {
         //call the move() code for each object
         spongebob.wrap();
-        spongebob.printInfo();
+        // spongebob.printInfo();
 
         starfish.wrap();
-        starfish.printInfo();
+        // starfish.printInfo();
 
         octopus.move();
-        octopus.printInfo();
+        // octopus.printInfo();
+        if(spongebob.hitbox.intersects(octopus.hitbox)){
+            System.out.println("crash");
+        }
     }
-
     //Paints things on the screen using bufferStrategy
     private void render() {
         Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
