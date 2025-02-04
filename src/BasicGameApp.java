@@ -13,6 +13,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.tools.Tool;
 
 //*******************************************************************************
 
@@ -24,6 +25,10 @@ public class BasicGameApp implements Runnable {
     Character spongebob;
     Character starfish;
     Character octopus;
+    Character Shark;
+    Character Seahorse;
+
+    boolean spongebobVsOctopus = false;
 
     Image backgroundPic;
 
@@ -66,9 +71,17 @@ public class BasicGameApp implements Runnable {
         octopus.name = "octopus";
         octopus.pic = Toolkit.getDefaultToolkit().getImage("octopus.png");
 
+        Shark = new Character(20,100,1,0,100,100);
+        Shark.name = "shark";
+        Shark.pic = Toolkit.getDefaultToolkit().getImage("shark.png");
+
+        Seahorse = new Character(800,40,4,4,100,100);
+        Seahorse.name = "seahorse";
+        Seahorse.pic = Toolkit.getDefaultToolkit().getImage("seahorse.png");
+
     } // end BasicGameApp constructor
 
-//*******************************************************************************
+    //*******************************************************************************
 //User Method Section
 //
 // put your code to do things here.
@@ -86,13 +99,46 @@ public class BasicGameApp implements Runnable {
     public void moveThings() {
         //call the move() code for each object
         spongebob.wrap();
-        spongebob.printInfo();
+        //spongebob.printInfo();
 
         starfish.wrap();
-        starfish.printInfo();
+        //starfish.printInfo();
 
         octopus.move();
-        octopus.printInfo();
+        //octopus.printInfo();
+
+        Shark.move();
+        //Shark.printInfo();
+
+        Seahorse.move();
+        //Seahorse.printInfo();
+
+        if(spongebob.hitbox.intersects(octopus.hitbox) && spongebobVsOctopus == false) {
+            spongebobVsOctopus = true;
+
+            System.out.println("crash");
+            octopus.dx = -octopus.dx;
+            octopus.dy = -octopus.dy;
+            spongebob.dx = -spongebob.dx;
+            spongebob.dy = -spongebob.dx;
+
+            spongebob.width = spongebob.width + 100;
+            spongebob.height = spongebob.height + 100;
+        }
+        if(starfish.hitbox.intersects(Shark.hitbox)) {
+            System.out.println("crash");
+            Shark.dx = -Shark.dx;
+            Shark.dy = -Shark.dy;
+            starfish.dx = -starfish.dx;
+            starfish.dy = -starfish.dx;
+        }
+        if(Seahorse.hitbox.intersects(Shark.hitbox)) {
+            System.out.println("crash");
+            Shark.dx = -Shark.dx;
+            Shark.dy = -Shark.dy;
+            Seahorse.dx = -Seahorse.dx;
+            Seahorse.dy = -Seahorse.dy;
+        }
     }
 
     //Paints things on the screen using bufferStrategy
@@ -109,17 +155,21 @@ public class BasicGameApp implements Runnable {
         g.drawImage(spongebob.pic, spongebob.xpos, spongebob.ypos, spongebob.width, spongebob.height, null);
         g.drawImage(starfish.pic, starfish.xpos, starfish.ypos, starfish.width,starfish.height, null);
         g.drawImage(octopus.pic, octopus.xpos, octopus.ypos, octopus.width, octopus.height, null);
+        g.drawImage(Shark.pic, Shark.xpos, Shark.ypos, Shark.width, Shark.height, null);
+        g.drawImage(Seahorse.pic, Seahorse.xpos, Seahorse.ypos, Seahorse.width, Seahorse.height, null);
 
-        g.drawRect(spongebob.hitbox.x, spongebob.hitbox.y, spongebob.hitbox.width, spongebob.hitbox.height);
-        g.drawRect(starfish.hitbox.x, starfish.hitbox.y, starfish.hitbox.width, starfish.hitbox.height);
-        g.drawRect(octopus.hitbox.x, octopus.hitbox.y, octopus.hitbox.width, octopus.hitbox.height);
+//        g.drawRect(spongebob.hitbox.x, spongebob.hitbox.y, spongebob.hitbox.width, spongebob.hitbox.height);
+//        g.drawRect(starfish.hitbox.x, starfish.hitbox.y, starfish.hitbox.width, starfish.hitbox.height);
+//        g.drawRect(octopus.hitbox.x, octopus.hitbox.y, octopus.hitbox.width, octopus.hitbox.height);
+//        g.drawRect(Shark.hitbox.x, Shark.hitbox.y, Shark.hitbox.width, Shark.hitbox.height);
+//        g.drawRect(Seahorse.hitbox.x, Seahorse.hitbox.y, Seahorse.hitbox.width, Seahorse.hitbox.height);
 
         g.dispose();
         bufferStrategy.show();
     }
 
     //Pauses or sleeps the computer for the amount specified in milliseconds
-    public void pause(int time ) {
+    public void pause(int time) {
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
