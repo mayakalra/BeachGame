@@ -56,6 +56,9 @@ public class Character {
         if (xpos == 1000) {
             xpos = -width;  // Wrap to the left side if reaching the right edge
         }
+        if(xpos <= 0 && dx < 0) {
+            xpos = 1000; // Wrap to the right side if reaching the left edge
+        }
 
         hitbox = new Rectangle(xpos, ypos, width, height);  // Update hitbox
     }
