@@ -75,7 +75,7 @@ public class BasicGameApp implements Runnable {
         Shark.name = "shark";
         Shark.pic = Toolkit.getDefaultToolkit().getImage("shark.png");
 
-        Seahorse = new Character(800,40,4,4,100,100);
+        Seahorse = new Character(800,40,4,4,80,80);
         Seahorse.name = "seahorse";
         Seahorse.pic = Toolkit.getDefaultToolkit().getImage("seahorse.png");
 
@@ -97,36 +97,40 @@ public class BasicGameApp implements Runnable {
     }
 
     public void moveThings() {
+        // random speed for starfish, will eventually go off the screen because of how fast it goes
+        starfish.dx = (int)(Math.random() + 8);
+        starfish.dy = (int)(Math.random() + 1);
+        
         //call the move() code for each object
         spongebob.wrap();
-        //spongebob.printInfo();
+        spongebob.printInfo();
 
         starfish.wrap();
-        //starfish.printInfo();
+        starfish.printInfo();
 
         octopus.move();
-        //octopus.printInfo();
+        octopus.printInfo();
 
-        Shark.move();
-        //Shark.printInfo();
+        Shark.wrap();
+        Shark.printInfo();
 
         Seahorse.move();
-        //Seahorse.printInfo();
+        Seahorse.printInfo();
 
         if(spongebob.hitbox.intersects(octopus.hitbox) && spongebobVsOctopus == false) {
             spongebobVsOctopus = true;
 
-            System.out.println("crash");
+            // System.out.println("crash");
             octopus.dx = -octopus.dx;
             octopus.dy = -octopus.dy;
             spongebob.dx = -spongebob.dx;
             spongebob.dy = -spongebob.dx;
 
             spongebob.width = spongebob.width + 100;
-            spongebob.height = spongebob.height + 100;
+            spongebob.height = spongebob.height + 100; // when octopus collides with spongebob, spongebob grows
         }
         if(starfish.hitbox.intersects(Shark.hitbox)) {
-            System.out.println("crash");
+           // System.out.println("crash");
             Shark.dx = -Shark.dx;
             Shark.dy = -Shark.dy;
             starfish.dx = -starfish.dx;
