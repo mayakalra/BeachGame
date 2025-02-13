@@ -63,7 +63,7 @@ public class BasicGameApp implements Runnable {
         spongebob.name = "spongebob";
         spongebob.pic = Toolkit.getDefaultToolkit().getImage("spongebob.png");
 
-        starfish = new Character(300, 200, 1, 1, 150, 150);
+        starfish = new Character(300, 200, 1, 1, 150, 250);
         starfish.name = "starfish";
         starfish.pic = Toolkit.getDefaultToolkit().getImage("starfish.png");
 
@@ -75,7 +75,7 @@ public class BasicGameApp implements Runnable {
         Shark.name = "shark";
         Shark.pic = Toolkit.getDefaultToolkit().getImage("shark.png");
 
-        Seahorse = new Character(800,45,4,4,80,80);
+        Seahorse = new Character(800,40,4,4,100,100);
         Seahorse.name = "seahorse";
         Seahorse.pic = Toolkit.getDefaultToolkit().getImage("seahorse.png");
 
@@ -97,47 +97,48 @@ public class BasicGameApp implements Runnable {
     }
 
     public void moveThings() {
-        // random speed for starfish, will eventually go off the screen because of how fast it goes
-        starfish.dx = (int)(Math.random() + 8);
-        starfish.dy = (int)(Math.random() + 1);
-
         //call the move() code for each object
         spongebob.wrap();
-        spongebob.printInfo();
+        //spongebob.printInfo();
 
         starfish.wrap();
-        starfish.printInfo();
+        //starfish.printInfo();
 
         octopus.move();
-        octopus.printInfo();
+        //octopus.printInfo();
 
-        Shark.wrap();
-        Shark.printInfo();
+        Shark.move();
+        //Shark.printInfo();
 
         Seahorse.move();
-        Seahorse.printInfo();
+        //Seahorse.printInfo();
 
-        if (spongebob.hitbox.intersects(octopus.hitbox) && spongebobVsOctopus == false) {
+        if(spongebob.hitbox.intersects(octopus.hitbox) && spongebobVsOctopus == false) {
             spongebobVsOctopus = true;
 
-//            System.out.println("crash");
+            System.out.println("crash");
             octopus.dx = -octopus.dx;
             octopus.dy = -octopus.dy;
             spongebob.dx = -spongebob.dx;
             spongebob.dy = -spongebob.dx;
 
             spongebob.width = spongebob.width + 100;
-            spongebob.height = spongebob.height + 100; // when octopus collides with spongebob, spongebob grows
+            spongebob.height = spongebob.height + 100;
         }
-
-        if (Seahorse.hitbox.intersects(Shark.hitbox)) {
-//            System.out.println("crash");
-            Shark.dx = -Shark.dx + 3;
-            Shark.dy = -Shark.dy * 10; // when seahorse collides with shark, shark gets faster/slower every collision
+        if(starfish.hitbox.intersects(Shark.hitbox)) {
+            System.out.println("crash");
+            Shark.dx = -Shark.dx;
+            Shark.dy = -Shark.dy;
+            starfish.dx = -starfish.dx;
+            starfish.dy = -starfish.dx;
+        }
+        if(Seahorse.hitbox.intersects(Shark.hitbox)) {
+            System.out.println("crash");
+            Shark.dx = -Shark.dx;
+            Shark.dy = -Shark.dy;
             Seahorse.dx = -Seahorse.dx;
             Seahorse.dy = -Seahorse.dy;
         }
-
     }
 
     //Paints things on the screen using bufferStrategy
